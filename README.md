@@ -1,8 +1,9 @@
 # EnglishDictionary
 A little english dictionary that can check:
 1. if a word is in English dictionary (natural language)
-2. if a word is a common abbreviation (in programming context...)
-3. the n-gram word frequency of a word
+2. if a word is a common abbreviation (in programming context...: Including domain specific terms, technical terms like library names)
+3. if a word is common programming types. (strings like "list", "lst", "set", "dict")
+4. the n-gram word frequency of a word
 
 ## Identify Dictionary words
 Identifying dictionary words might seem trivial at frist, but there are many versions of dictionary, some includes "too many" words and some includes "too few" words. For example, the word "gen" is technically a word that means "information" in British English, but "normally" people wouldn't treat it as a dictioanry word, but rather abbreviation for "generation". 
@@ -42,7 +43,9 @@ In "Reanalysis of empirical data on java local variables with narrow and broad s
 1. I combined all the identified abbreviations in Aman and Feitelson's file, and manually expand them with the help of internet, chatgpt and stuff.
 2. I deleted some less common - far fetched expansion; or the name is very common in java programming but not so much in programming in general. (Some famous java libraries such as AWT - Abstract Window Toolkit; some domain specific terms in communication networks such as uuid - unique user identifier).
 3. I deleted some ambiguous ones: for example: "pos" can mean "position" or "positive" depend on context and there is no predominant one. 
-4. Feitelson decided that some technical terms/domain specific terms are so pervalent that we do not need to expand them, but rather treat them as new words. I agree to a large extend, but I added two new rules: First the name have to be very common to a certain extent (I decide): names like "java" and "mysql". Second, the name does not have other common interpretations:
+4. Feitelson decided that some technical terms/domain specific terms are so pervalent that we do not need to expand them, but rather treat them as new words. I agree to a large extend, but I added two new rules: First the name have to be very common to a certain extent (I decide): names like "java" and "mysql". Second, the name does not have other common interpretations.
+5. I then added some common python library names like numpy and scipy. (Since this original list is build on Java programs).
+6. I also made a list of common programming types and their common abbraviations. (like string, str, list, lst)
 
 **Any potential problems?**
 Expanding abbreviations is a semantic task, it also depends on context. But some abbreviations are so common that they almost always have only one kind of expansion. I try to use my subjective judgement to decide if this abbreviaiton is pervalent enough that there is almost only one kind of expansion. In later project I will use other ways such as LLM to expand abbreviations. Check out my ZipflawAnalysis repo. 
