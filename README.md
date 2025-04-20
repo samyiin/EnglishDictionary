@@ -59,6 +59,9 @@ If we take a step further, we also need to ask the question: what is an abbrevia
 
 Anyways, so in short, to avoid answering all these complicated questions, I will define here that Domain specific term is considered abbreviation in my dictionary - even when they themsleves have abbreviation. Because sometimes they started with being acronymes of real english word. 
 
+## Strings that represents types in programming
+I also manually collected strings that represents types in programming, like "list" or "lst". This is some sort of domain specific jargon. But it's useful to make the distinction for the purpose of my masters thesis, so I added this functionality to the dictionary. 
+
 ## Word frequency
 I use other people's repository directory, so just go look at theirs. One major thing is word frequency is google's n-gram data, and this python library does contain the google n-gram data, so I think it is very comprehensive. Here is the link:
 
