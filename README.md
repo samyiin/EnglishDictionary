@@ -62,6 +62,16 @@ Anyways, so in short, to avoid answering all these complicated questions, I will
 ## Strings that represents types in programming
 I also manually collected strings that represents types in programming, like "list" or "lst". This is some sort of domain specific jargon. But it's useful to make the distinction for the purpose of my masters thesis, so I added this functionality to the dictionary. 
 
+## Classification Problem
+Just like any classifier, there is always this TP/FN problem. So what I noticed here is that when I used this dictionary for identifying words in programming variables, it could cause some problem:
+
+    TP: actual English word classified as actual English word, like "hello" -> is English
+    TN: non English word classified as English word. like "gen" -> is English. Technically it is, but it's very uncommon, and likely an abbreviation
+    FP: non English word classified as non English word. Like "asdf" -> not english
+    FN: English word classified as non English word. I can't find such examples yet...
+
+So to evaluate this dictionary, we will see the trade-off of ROC. So far, feeling-wise, I feel like for concern of my thesis, ENABLE is the best dictionary...
+
 ## Word frequency
 I use other people's repository directory, so just go look at theirs. One major thing is word frequency is google's n-gram data, and this python library does contain the google n-gram data, so I think it is very comprehensive. Here is the link:
 
