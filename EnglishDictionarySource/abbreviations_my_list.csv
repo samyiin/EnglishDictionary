@@ -36,7 +36,6 @@ regex,regular expression
 attrs,attributes
 expr,expression
 pid,process id
-str,string
 cmp,compare
 uuid,universally unique id
 txt,text
@@ -238,6 +237,7 @@ inf,information
 cert,certificate
 neg,negative
 dir,directory
+dirs,directories
 prev,previous
 ref,reference
 distro,distribution
@@ -279,7 +279,7 @@ obj,object
 chars,characters
 hex,hexadecimal
 buff,buffer
-ary,array
+uri,uri
 cpu,cpu
 elem,element
 gdb,gdb
@@ -292,3 +292,37 @@ lang,language
 lib,library
 prob,probability
 wiki,wikipedia
+py,python
+html,html
+kwargs,keyword arguments
+unicode,unicode
+xml,xml
+dict,dictionary
+dic,dictionary
+django,django
+tqdm,tqdm
+numpy,numpy
+matplotlib,matplotlib
+tokenizer,tokenizer
+avg,average
+scipy,scipy
+sqlite,sqlite
+vocab,vocabulary
+fps,frames per second
+tokenize,tokenize
+kw,keyword
+kws,keywords
+pth,path
+weibo,weibo
+unigram,unigram
+weixin,weixin
+abbrev,abbreviation
+gpu,gpu
+vocab,vocabularies
+subreddits,subreddits
+freqs,frequencies
+cdf,cumulative distribution function
+postgresql,postgresql
+yml,yaml
+yaml,yaml
+admin, administrator
