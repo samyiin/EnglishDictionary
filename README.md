@@ -75,11 +75,6 @@ Usage:
     EnglishDictionary().is_irregular_past_tense(word)
 
 
-## Word frequency
-I use other people's repository directory, so just go look at theirs. One major thing is word frequency is google's n-gram data, and this python library does contain the google n-gram data, so I think it is very comprehensive. Here is the link:
-
-    https://github.com/rspeer/wordfreq.git
-
 
 ## Classification Problem
 Just like any classifier, there is always this TP/FN problem. So what I noticed here is that when I used this dictionary for identifying words in programming variables, it could cause some problem:
