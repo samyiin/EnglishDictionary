@@ -3,9 +3,12 @@ A little english dictionary that can check:
 1. if a word is in English dictionary (natural language)
 2. if a word is a common abbreviation (in programming context...: Including domain specific terms, technical terms like library names)
 3. if a word is common programming types. (strings like "list", "lst", "set", "dict")
-4. the n-gram word frequency of a word
+4. if a word has irregular verb form
 
 ## Identify Dictionary words
+Usage: 
+
+    EnglishDictionary().is_english(word)
 Identifying dictionary words might seem trivial at frist, but there are many versions of dictionary, some includes "too many" words and some includes "too few" words. For example, the word "gen" is technically a word that means "information" in British English, but "normally" people wouldn't treat it as a dictioanry word, but rather abbreviation for "generation". 
 
 So far I found a few dictionary of choice, I will list their link here:
@@ -29,6 +32,9 @@ Some random dictionary on internet?
 After usage, I feel like NLTK contains too little words, COCA contains way too much, also of course if I combine everything, it contains too much words. I set default to ENABLE. 
 
 ## Identify Abbreviations
+Usage:
+
+    EnglishDictionary().is_abbrev(word)
 **Previous attempts**:
 In "large-scale investigation of local variable names in java programs: Is longer name better for broader scope variable?" 2021, Aman built a dictionary of 201 common abbreviations by referencing https://www.abbreviations.com/. The file can be download from their official website, and I just kept a copy here:
 
@@ -50,17 +56,30 @@ In "Reanalysis of empirical data on java local variables with narrow and broad s
 **Any potential problems?**
 Expanding abbreviations is a semantic task, it also depends on context. But some abbreviations are so common that they almost always have only one kind of expansion. I try to use my subjective judgement to decide if this abbreviaiton is pervalent enough that there is almost only one kind of expansion. In later project I will use other ways such as LLM to expand abbreviations. Check out my ZipflawAnalysis repo. 
 
-## Abbreviations/acronym, domain specific terms, dictionary words
-Sometimes a domain specific term might not be an abbreviation nor a dictionary word (For example "java"). Some-other-times, a domain specific term starts as an acronyme of real english words, but they got very popular so people start to just treat them as a new word (this happends in real language too.) (For example "sql"). Some_other-other-times, a domain specific term might even have abbreviation of themselves. (For example, "js" for "javascript"). 
+## Identify Common Programming Types 
+I manually collected strings that represents types in programming, like "list" or "lst". This is some sort of domain specific jargon. But it's useful to make the distinction for the purpose of my masters thesis, so I added this functionality to the dictionary. 
 
-Even in natural language, sometimes an abbreviation becomes so pervalent it just being considered as a dictionary word. (After all, dictionary is just a set of strings that "some" group of people aggreed upon --Sam). So there is always this blurry line between abbreviations and dictionary words. 
+    File path: EnglishDictionarySource/common_programming_type_name.csv
 
-If we take a step further, we also need to ask the question: what is an abbreviation? If you go to https://www.abbreviations.com/, and type any random string, it is almost always an abbreviation for something (for simplicity, let's not differentiate abbreviations and acronyms). (So basically abbreviations are also just a set of strings that some group of people in certain domain agree upon. The more common the abbreviation, the larger the group. -- Wise man Sam again. )
+Usage:
 
-Anyways, so in short, to avoid answering all these complicated questions, I will define here that Domain specific term is considered abbreviation in my dictionary - even when they themsleves have abbreviation. Because sometimes they started with being acronymes of real english word. 
+    EnglishDictionary().is_program_type(word)
 
-## Strings that represents types in programming
-I also manually collected strings that represents types in programming, like "list" or "lst". This is some sort of domain specific jargon. But it's useful to make the distinction for the purpose of my masters thesis, so I added this functionality to the dictionary. 
+## Identify verbs has irregular past tense
+I gathered a list of strings that represents past and present tenses of common irregular verbs. 
+
+    File path: EnglishDictionarySource/irregular_verbs.csv
+
+Usage:
+
+    EnglishDictionary().is_irregular_past_tense(word)
+
+
+## Word frequency
+I use other people's repository directory, so just go look at theirs. One major thing is word frequency is google's n-gram data, and this python library does contain the google n-gram data, so I think it is very comprehensive. Here is the link:
+
+    https://github.com/rspeer/wordfreq.git
+
 
 ## Classification Problem
 Just like any classifier, there is always this TP/FN problem. So what I noticed here is that when I used this dictionary for identifying words in programming variables, it could cause some problem:
@@ -72,7 +91,4 @@ Just like any classifier, there is always this TP/FN problem. So what I noticed 
 
 So to evaluate this dictionary, we will see the trade-off of ROC. So far, feeling-wise, I feel like for concern of my thesis, ENABLE is the best dictionary...
 
-## Word frequency
-I use other people's repository directory, so just go look at theirs. One major thing is word frequency is google's n-gram data, and this python library does contain the google n-gram data, so I think it is very comprehensive. Here is the link:
 
-    https://github.com/rspeer/wordfreq.git
