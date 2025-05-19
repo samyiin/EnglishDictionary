@@ -1,5 +1,4 @@
 from nltk.corpus import words
-from wordfreq import word_frequency
 import numpy as np
 # This will give all conjugations of a verb
 # https://pypi.org/project/word-forms/
@@ -13,8 +12,11 @@ class EnglishDictionary:
         # This will only be called in the root directory of the project.
         # By default we use the NLTK dictionary
         self.abbrev_dict = None
-        self.abbrev_set = None
-        self.abbreviations = None
+        self.abbreviations_df = None
+
+        self.program_type_names_dic = None
+        self.program_type_names_df = None
+
         self.dictionary = set(words.words())
         self.source_directory = os.path.join(root_dir, 'EnglishDictionarySource/')
         irregular_verbs_csv = os.path.join(self.source_directory, 'irregular_verbs.csv')
@@ -23,6 +25,10 @@ class EnglishDictionary:
         self.load_dictionary()
         # initialize the list of common abbreviations
         self.load_abbreviation_list()
+        # initialize the list of program type names
+        self.load_program_type_list()
+
+    # =================function 1: check dictionary words ==========================
 
     @staticmethod
     def _load_word_list(file_path):
@@ -63,21 +69,10 @@ class EnglishDictionary:
             raise ValueError("PARAMETER dictionary_name: [ENABLE, dwyl-english_words, SCOWL, NLTK]")
 
     def is_english(self, word):
-        return (word in self.dictionary) or (word.lower() in self.dictionary)
+        return (word in self.dictionary) or (word.lower().strip() in self.dictionary)
 
-    # =================function 2: get words frequency ==========================
-    def get_word_natural_frequency(self, word):
-        """
-        # This word_frequency actually includes GoogleBooksNgram
-        # https://github.com/rspeer/wordfreq.git
-        # Good for single english word, Limited functionality for n-grams (a strings that contains many words)
-        :param word:
-        :return:
-        """
-        freq = word_frequency(word, 'en')
-        return freq
 
-    # =================function 3: check abbreviations ==========================
+    # =================function 2: check abbreviations ==========================
     def load_abbreviation_list(self, abbreviation_list="my_list"):
         """
         So far I only have one abbreviation list
@@ -86,22 +81,48 @@ class EnglishDictionary:
         """
         if abbreviation_list != "my_list":
             raise ValueError("Do not support other abbrev list yet...")
-        self.abbreviations = pd.read_csv(os.path.join(self.source_directory, "abbreviations_my_list.csv"))
-        self.abbreviations.map(str.lower)
-        self.abbrev_set = set(self.abbreviations['abbreviation'])  # for O(1) lookup
+        self.abbreviations_df = pd.read_csv(os.path.join(self.source_directory, "abbreviations_my_list.csv"))
+        self.abbreviations_df["abbreviation"] = self.abbreviations_df["abbreviation"].str.lower().str.strip()
+        self.abbreviations_df["expansion"] = self.abbreviations_df["expansion"].str.lower().str.strip()
+
         # maps abbrev -> expansion
-        self.abbrev_dict = dict(zip(self.abbreviations['abbreviation'], self.abbreviations['expansion']))
+        self.abbrev_dict = dict(zip(self.abbreviations_df['abbreviation'], self.abbreviations_df['expansion']))
 
     def is_abbrev(self, word):
-        return word.lower() in self.abbrev_set
+        return word.lower().strip() in self.abbrev_dict
 
     def expand_abbrev(self, word):
-        if word in self.abbrev_set:
-            return self.abbrev_dict[word]
+        if word.lower().strip() in self.abbrev_dict:
+            return self.abbrev_dict[word.lower().strip()]
         else:
             return None
 
-    # =================function 3: check word forms ==========================
+    # =================function 3: check type driven names ==========================
+    def load_program_type_list(self, program_type="list1"):
+        """
+        So far I only have one abbreviation list
+        :param program_type: ["my_list"]
+        :return:
+        """
+        if program_type != "list1":
+            raise ValueError("Do not support other abbrev list yet...")
+        self.program_type_names_df = pd.read_csv(os.path.join(self.source_directory, "common_programming_type_name.csv"))
+        self.program_type_names_df["type_string"] = self.program_type_names_df["type_string"].str.lower().str.strip()
+        self.program_type_names_df["expansion"] = self.program_type_names_df["expansion"].str.lower().str.strip()
+
+        # maps abbrev -> expansion
+        self.program_type_names_dic = dict(zip(self.program_type_names_df['type_string'], self.program_type_names_df['expansion']))
+
+    def is_program_type(self, word):
+        return word.lower().strip() in self.program_type_names_dic
+
+    def expand_program_type(self, word):
+        if word.lower().strip() in self.program_type_names_dic:
+            return self.program_type_names_dic[word.lower().strip()]
+        else:
+            return None
+
+    # =================function 4: check word forms ==========================
 
     def word_forms(self, word):
         # Unused....
